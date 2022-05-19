@@ -1,18 +1,16 @@
 """
 Clean and Interpret Alignments
 """
-
-from pydoc import resolve
 import subprocess
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
-from latch import small_task, workflow, large_gpu_task
+from latch import small_task, workflow
 from latch.types import LatchFile
 
 
 @small_task
-def align_task(align_file: LatchFile, config_file: LatchFile, output_file: Optional[str]) -> Tuple(LatchFile, LatchFile):
+def align_task(align_file: LatchFile, config_file: LatchFile, output_file: Optional[str]) -> LatchFile:
 
     _align_cmd = [
         "CIAlign",
@@ -37,18 +35,19 @@ def align_task(align_file: LatchFile, config_file: LatchFile, output_file: Optio
 
 
 @workflow
-def CIAlign(align_file: LatchFile, config_file: LatchFile, output_file: Optional[str] = None) -> Tuple(LatchFile, LatchFile):
-    """The workflow is the implementation of the CIAlign tool. CIAlign is a command line tool
-    that allows users to remove specific issues from an MSA, visualise the MSA, and interpret the MSA.
-    The tool will remove regions of low coverage due to insertions, gaps
-    crop poorly aligned sequence ends and remove sequences that are too divergent or too short.
-    Compared to other tools, user have the opportunity to distinguish between gaps within 
-    the body of a sequence, that should be removed and gaps padding the ends of sequences of different lengths
+def CIAlign(align_file: LatchFile, config_file: LatchFile, output_file: Optional[str]) -> LatchFile:
+    """The workflow is the implementation of the CIAlign tool.
 
     ----
 
 
     # Introduction 
+    CIAlign is a command line tool
+    that allows users to remove specific issues from an MSA, visualise the MSA, and interpret the MSA.
+    The tool will remove regions of low coverage due to insertions, gaps
+    crop poorly aligned sequence ends and remove sequences that are too divergent or too short.
+    Compared to other tools, user have the opportunity to distinguish between gaps within 
+    the body of a sequence, that should be removed and gaps padding the ends of sequences of different lengths
     CIAlign will first remove divergent sequences and consider shorter sequences towards the end of the
     Cleaning stages. Mini alignments can be generated and visualised using coloured rectangles. 
     Areas removed are marked up with different colors. The tool can also generate 
@@ -71,10 +70,16 @@ def CIAlign(align_file: LatchFile, config_file: LatchFile, output_file: Optional
 
           __metadata__:
             display_name: Input File
+        config_file: File containing configurations
+
+
+          __metadata__:
+            display_name: Configs
+
         output_file: The file used to write output
 
 
           __metadata__:
             display_name: Output File
     """
-    return align_task(align_file=align_file, confige_file=config_file, output_file=output_file)
+    return align_task(align_file=align_file, config_file=config_file, output_file=output_file)
