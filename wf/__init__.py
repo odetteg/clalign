@@ -13,7 +13,7 @@ from latch.types import LatchFile
 def align_task(
         align_file: LatchFile,
         config_file: LatchFile) -> LatchFile:
-    file_align = Path("align.txt").resolve()
+
     _align_cmd = [
         "CIAlign",
         "--infile",
@@ -22,7 +22,7 @@ def align_task(
         str(Path(config_file).resolve())
     ]
     # defining the output
-
+    file_align = Path("align.txt").resolve()
     subprocess.run(_align_cmd, check=True)
 
     return LatchFile(str(file_align), "latch:///align.txt")
