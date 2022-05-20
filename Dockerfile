@@ -1,5 +1,4 @@
 FROM 812206152185.dkr.ecr.us-west-2.amazonaws.com/wf-base:fbe8-main
-
 # Install requirements
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt

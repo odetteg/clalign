@@ -10,32 +10,26 @@ from latch.types import LatchFile
 
 
 @small_task
-def align_task(align_file: LatchFile, config_file: LatchFile, output_file: Optional[str]) -> LatchFile:
-
+def align_task(
+        align_file: LatchFile,
+        config_file: LatchFile) -> LatchFile:
+    file_align = Path("align.txt").resolve()
     _align_cmd = [
         "CIAlign",
-        "--input",
+        "--infile",
         align_file.local_path,
-        "--output",
-        output_file,
-        "--config",
+        "--inifile",
         str(Path(config_file).resolve())
     ]
     # defining the output
-    if not output_file:
-        file_align = Path("align.txt").resolve()
-    else:
-        file_align = output_file
-    with open(file_align, "w") as f:
-        subprocess.run(_align_cmd, stdout=f, stderr=f)
-    if not output_file:
-        return LatchFile(str(file_align), f"latch:///{file_align.name}")
-    else:
-        return LatchFile(str(file_align), f"latch:///{file_align.name}")
+
+    subprocess.run(_align_cmd, check=True)
+
+    return LatchFile(str(file_align), "latch:///align.txt")
 
 
 @workflow
-def CIAlign(align_file: LatchFile, config_file: LatchFile, output_file: Optional[str]) -> LatchFile:
+def CIAlign(align_file: LatchFile, config_file: LatchFile) -> LatchFile:
     """The workflow is the implementation of the CIAlign tool.
 
     ----
@@ -52,16 +46,6 @@ def CIAlign(align_file: LatchFile, config_file: LatchFile, output_file: Optional
     Cleaning stages. Mini alignments can be generated and visualised using coloured rectangles. 
     Areas removed are marked up with different colors. The tool can also generate 
     Sequence logos to show the information and base/amino acid content at each position
-
-    __metadata__:
-        display_name: Clean and Interpret Alignments
-        author: Katy Brown
-            name: CIAlign
-            email:
-            github:
-        repository:
-        license:
-            id: MIT
 
     Args:
 
@@ -82,4 +66,4 @@ def CIAlign(align_file: LatchFile, config_file: LatchFile, output_file: Optional
           __metadata__:
             display_name: Output File
     """
-    return align_task(align_file=align_file, config_file=config_file, output_file=output_file)
+    return align_task(align_file=align_file, config_file=config_file)
