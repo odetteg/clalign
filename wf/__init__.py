@@ -15,7 +15,7 @@ def align_task(
         config_file: LatchFile) -> LatchFile:
 
     # defining the output and outfile_stem
-    file_align = Path("CIAlign.fasta").resolve()
+    out_put = Path("CIAlign.txt").resolve()
 
     # The function to run
     _align_cmd = [
@@ -23,14 +23,14 @@ def align_task(
         "--infile",
         align_file.local_path,
         "--outfile_stem",
-        str(file_align),
+        CIAlign,
         "--inifile",
         str(Path(config_file).resolve())
     ]
 
     subprocess.run(_align_cmd, check=True)
 
-    return LatchFile(str(file_align), "latch:///CIAlign.fasta")
+    return LatchFile(str(out_put), "latch:///CIAlign.txt")
 
 
 @workflow
@@ -71,4 +71,10 @@ def CIAlign(align_file: LatchFile, config_file: LatchFile) -> LatchFile:
           __metadata__:
             display_name: Output File
     """
+
     return align_task(align_file=align_file, config_file=config_file)
+
+
+# if __name__ == "__main__":
+# CN(align_file=LatchFile(r"C:\Users\Steve Odete\latch_wf\clalign\data\example1.fasta"),
+#  config_file=LatchFile(r"C:\Users\Steve Odete\latch_wf\clalign\my_configs.ini"))
