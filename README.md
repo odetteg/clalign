@@ -52,7 +52,7 @@ Users can perfom the followig functions:
 
 ### Consensus Sequence
 > **consensus_sequence.fasta:**   containing consensus sequence only
-> **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
+> > **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
 
 ### Mini Alignments 
 
