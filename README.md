@@ -1,17 +1,16 @@
 # clalign
 IAlign is a command line tool
     that allows users to remove specific issues from an MSA, visualise the MSA, and interpret the MSA.
-
-    Users can perfom the followig functions:
-    ## Cleaning an MSA
+    
+Users can perfom the followig functions:
+## Cleaning an MSA
 
         - Remove insertions which are not present in the majority of sequences
         - Remove sequences below a threshold number of bases or amino acids
         - Crop poorly aligned sequence ends
         - Remove columns containing only gaps
         - Remove sequences above a threshold level percentage of divergence from the majority
-
-    ## Visualise alignments
+## Visualise alignments
 
         - Generate image files showing the alignment before and after analysis using 
         - showing which columns and rows have been removed
