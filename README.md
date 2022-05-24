@@ -52,7 +52,8 @@ Users can perfom the followig functions:
 
 ### Consensus Sequence
 > **consensus_sequence.fasta:**   containing consensus sequence only
-> > **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
+
+> **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
 
 ### Mini Alignments 
 
@@ -66,6 +67,7 @@ Users can perfom the followig functions:
 > **logosTxt.jpg:**  the alignment represented as a standard sequence logo 
 
 ### Coverage Plots 
+
 > **CPlots_in.jpg** : image showing the input alignment coverage
 > **CPlots_out.jpg** : image showing the output alignment coverage
 
