@@ -1,5 +1,5 @@
 # clalign
-IAlign is a command line tool
+CIAlign is a command line tool
     that allows users to remove specific issues from an MSA, visualise the MSA, and interpret the MSA.
     
 Users can perfom the followig functions:
@@ -16,12 +16,12 @@ Users can perfom the followig functions:
         - showing which columns and rows have been removed
         - Draw sequence logos
         - Visualise coverage at each position in the alignment
-
-    ## Analyse alignment statistics 
+        
+## Analyse alignment statistics 
 
         - Generate a similarity matrix showing the percentage identity between each sequence pair 
-
-    # Usage 
+        
+# Usage 
 
         For basic usage, user must input a fasta file with aligned sequences
         and a config file: 
@@ -42,8 +42,8 @@ Users can perfom the followig functions:
         **Configs** to enter the config file
 
         Clck **Launch Workflow** button to begin the rule
-
-    # Accessing files 
+        
+# Accessing files 
 
         With a complete run, you can access the folowing files:
 
@@ -51,28 +51,28 @@ Users can perfom the followig functions:
 
     > Consensus Sequence
 
-    #### **consensus_sequence.fasta:**   containing consensus sequence only
-    #### **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
+#### **consensus_sequence.fasta:**   containing consensus sequence only
+#### **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
 
     > Mini Alignments 
 
-    #### **view_input.jpg:**  with the the input alignment
-    #### **view_output.jpg:** with the  the cleaned output alignment
-    #### **view_markup.jpg:** with the the input alignment with deleted rows and columns marked
+#### **view_input.jpg:**  with the the input alignment
+#### **view_output.jpg:** with the  the cleaned output alignment
+#### **view_markup.jpg:** with the the input alignment with deleted rows and columns marked
 
     > Logos 
 
-    ##### **logosBar.jpg:** the alignment represented as a bar chart
-    #### **logosTxt.jpg:**  the alignment represented as a standard sequence logo 
+##### **logosBar.jpg:** the alignment represented as a bar chart
+#### **logosTxt.jpg:**  the alignment represented as a standard sequence logo 
 
     > Coverage Plots 
 
-    #### **CPlots_in.jpg** : image showing the input alignment coverage
-    ##### **CPlots_out.jpg** : image showing the output alignment coverage
+#### **CPlots_in.jpg** : image showing the input alignment coverage
+##### **CPlots_out.jpg** : image showing the output alignment coverage
 
     > Similarity Matrices 
 
-    ##### **stats_in.tsv:**   similarity matrix for the input file
+##### **stats_in.tsv:**   similarity matrix for the input file
 
     ##### **stats_out.tsv:**  similarity matrix for the output file
 
