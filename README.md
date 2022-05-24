@@ -34,7 +34,7 @@ The config file included in the description returns analysis with default values
 Downlaod an example fasta file [here](https://github.com/GeOdette/clalign/blob/ca26b2a208e83cb9ae25346d8c3a8c46c899ae48/data/example4.fasta) 
         for dummy use
         
-Click __Input File__ to enter the input file and **Configs** to enter the config file
+Click [__Input File__](https://console.latch.bio/workflows/60653/parameters) to enter the input file and **Configs** to enter the config file
 
 Clck **Launch Workflow** button at [LatchBio](https://console.latch.bio/se/) to begin the run
         
