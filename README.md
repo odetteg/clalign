@@ -58,22 +58,27 @@ Users can perfom the followig functions:
 ### Mini Alignments 
 
 > **view_input.jpg:**  with the the input alignment
+
 > **view_output.jpg:** with the  the cleaned output alignment
+
 > **view_markup.jpg:** with the the input alignment with deleted rows and columns marked
 
 ### Logos 
 
 > **logosBar.jpg:** the alignment represented as a bar chart
+
 > **logosTxt.jpg:**  the alignment represented as a standard sequence logo 
 
 ### Coverage Plots 
 
 > **CPlots_in.jpg** :   image showing the input alignment coverage
+
 > **CPlots_out.jpg** :  image showing the output alignment coverage
 
 ### Similarity Matrices 
 
 > **stats_in.tsv:** similarity matrix for the input file
+
 > **stats_out.tsv:**    similarity matrix for the output file
 
 > Head to **Data** on the latch console to access various files
