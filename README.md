@@ -46,34 +46,32 @@ Users can perfom the followig functions:
 # Accessing files 
 
         With a complete run, you can access the folowing files:
+### File with cleaned alignments
 
-    > "Cleaned" alignment as **cleaned.fasta** 
+"Cleaned" alignment as **cleaned.fasta** 
 
-    > Consensus Sequence
+### Consensus Sequence
+> **consensus_sequence.fasta:**   containing consensus sequence only
+> **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
 
-#### **consensus_sequence.fasta:**   containing consensus sequence only
-#### **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
+### Mini Alignments 
 
-    > Mini Alignments 
+> **view_input.jpg:**  with the the input alignment
+> **view_output.jpg:** with the  the cleaned output alignment
+> **view_markup.jpg:** with the the input alignment with deleted rows and columns marked
 
-#### **view_input.jpg:**  with the the input alignment
-#### **view_output.jpg:** with the  the cleaned output alignment
-#### **view_markup.jpg:** with the the input alignment with deleted rows and columns marked
+### Logos 
 
-    > Logos 
+> **logosBar.jpg:** the alignment represented as a bar chart
+> **logosTxt.jpg:**  the alignment represented as a standard sequence logo 
 
-##### **logosBar.jpg:** the alignment represented as a bar chart
-#### **logosTxt.jpg:**  the alignment represented as a standard sequence logo 
+### Coverage Plots 
+> **CPlots_in.jpg** : image showing the input alignment coverage
+> **CPlots_out.jpg** : image showing the output alignment coverage
 
-    > Coverage Plots 
+### Similarity Matrices 
 
-#### **CPlots_in.jpg** : image showing the input alignment coverage
-##### **CPlots_out.jpg** : image showing the output alignment coverage
+> **stats_in.tsv:**   similarity matrix for the input file
+> **stats_out.tsv:**  similarity matrix for the output file
 
-    > Similarity Matrices 
-
-##### **stats_in.tsv:**   similarity matrix for the input file
-
-    ##### **stats_out.tsv:**  similarity matrix for the output file
-
-    > Head to **Data** on the latch console to access various files
+> Head to **Data** on the latch console to access various files
