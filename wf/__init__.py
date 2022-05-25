@@ -1,19 +1,23 @@
 """
-Clean and Interpret Alignments
+Clean and Interpret Multipple sequence Alignments
 """
+import os
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Optional, Tuple
 
 from latch import small_task, workflow
-from latch.types import LatchFile
+from latch.types import LatchFile, LatchDir
 
 
 @small_task
 def align_task(
         align_file: LatchFile,
-        config_file: LatchFile) -> Tuple[LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile]:
+        config_file: LatchFile) -> LatchDir:
 
+    # Make the output DIR
+    os.mkdir(Path("ClalignedFiles").resolve())
     # The function to run
     _align_cmd = [
         "CIAlign",
@@ -26,127 +30,146 @@ def align_task(
 
     subprocess.run(_align_cmd, check=True)
 
-    return (LatchFile(str(Path("CIAlign_removed.txt")), "latch:///removed.txt"),
-            LatchFile(str(Path("CIAlign_log.txt")), "latch:///logs.txt"),
-            LatchFile(str(Path("CIAlign_cleaned.fasta")),
-                      "latch:///cleaned.fasta"),
-            LatchFile(str(Path("CIAlign_consensus.fasta")),
-                      "latch:///consensus_sequence.fasta"),
-            LatchFile(str(Path("CIAlign_with_consensus.fasta")),
-                      "latch:///cleanedWconsensus_sequence.fasta"),
-            LatchFile(str(Path("CIAlign_input.jpg")),
-                      "latch:///view_input.jpg"),
-            LatchFile(str(Path("CIAlign_output.jpg")),
-                      "latch:///view_output.jpg"),
-            LatchFile(str(Path("CIAlign_markup.jpg")),
-                      "latch:///view_markup.jpg"),
-            LatchFile(str(Path("CIAlign_logo_bar.jpg")),
-                      "latch:///logosBar.jpg"),
-            LatchFile(str(Path("CIAlign_logo_text.jpg")),
-                      "latch:///logosTxt.jpg"),
-            LatchFile(str(Path("CIAlign_input_coverage.jpg")),
-                      "latch:///CPlots_in.jpg"),
-            LatchFile(str(Path("CIAlign_output_coverage.jpg")),
-                      "latch:///CPlots_out.jpg"),
-            LatchFile(str(Path("CIAlign_input_similarity.tsv")),
-                      "latch:///stats_in.tsv"),
-            LatchFile(str(Path("CIAlign_output_similarity.tsv")),
-                      "latch:///stats_out.tsv")
+    # Movigng the files to ClalignedFiles DIR
 
-
-            )
+    shutil.move(LatchFile(str(Path("CIAlign_removed.txt")),
+                "latch:///ClalignedFiles/CIAlign_removed.txt"))
+    shutil.move(LatchFile(str(Path("CIAlign_log.txt")),
+                          "latch:///ClalignedFiles/CIAlign_log.txt"))
+    shutil.move(LatchFile(str(Path("CIAlign_cleaned.fasta")),
+                          "latch:///ClalignedFiles/CIAlign_cleaned.fasta"))
+    shutil.move(LatchFile(str(Path("CIAlign_consensus.fasta")),
+                          "latch:///ClalignedFiles/CIAlign_consensus.fasta"))
+    shutil.move(LatchFile(str(Path("CIAlign_with_consensus.fasta")),
+                          "latch:///ClalignedFiles/CIAlign_with_consensus.fasta"))
+    shutil.move(LatchFile(str(Path("CIAlign_input.jpg")),
+                          "latch:///ClalignedFiles/CIAlign_input.jpg"))
+    shutil.move(LatchFile(str(Path("CIAlign_output.jpg")),
+                          "latch:///ClalignedFiles/CIAlign_output.jpg"))
+    shutil.move(LatchFile(str(Path("CIAlign_markup.jpg")),
+                          "latch:///ClalignedFiles/CIAlign_markup.jpg"))
+    shutil.move(LatchFile(str(Path("CIAlign_logo_bar.jpg")),
+                          "latch:///ClalignedFiles/CIAlign_logo_bar.jpg"))
+    shutil.move(LatchFile(str(Path("CIAlign_logo_text.jpg")),
+                          "latch:///ClalignedFiles/CIAlign_logo_text.jpg"))
+    shutil.move(LatchFile(str(Path("CIAlign_input_coverage.jpg")),
+                          "latch:///ClalignedFiles/CIAlign_input_coverage.jpg"))
+    shutil.move(LatchFile(str(Path("CIAlign_output_coverage.jpg")),
+                          "latch:///ClalignedFiles/CIAlign_output_coverage.jpg"))
+    shutil.move(LatchFile(str(Path("CIAlign_input_similarity.tsv")),
+                          "latch:///ClalignedFiles/CIAlign_input_similarity.tsv"))
+    shutil.move(LatchFile(str(Path("CIAlign_output_similarity.tsv")),
+                          "latch:///ClalignedFiles/CIAlign_output_similarity.tsv"))
+    return LatchDir(str(Path("ClalignedFiles")), "latch:///ClalignedFiles")
 
 
 @ workflow
-def CIAlign(align_file: LatchFile, config_file: LatchFile) -> Tuple[LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile, LatchFile]:
+def CIAlign(align_file: LatchFile, config_file: LatchFile) -> LatchDir:
     """The workflow is the implementation of the CIAlign tool: Clean and analyse a multiple sequence alignment (MSA).
 
     ----
 
 
     # CIAlign
+
     CIAlign is a command line tool
-    that allows users to remove specific issues from an MSA, visualise the MSA, and interpret the MSA.
+          that allows users to remove specific issues from an MSA, visualise the MSA, and interpret the MSA.
 
     Users can perfom the followig functions:
-    ## Cleaning an MSA
+    # Cleaning an MSA
 
-        - Remove insertions which are not present in the majority of sequences
-        - Remove sequences below a threshold number of bases or amino acids
-        - Crop poorly aligned sequence ends
-        - Remove columns containing only gaps
-        - Remove sequences above a threshold level percentage of divergence from the majority
+              - Remove insertions which are not present in the majority of sequences
+              - Remove sequences below a threshold number of bases or amino acids
+              - Crop poorly aligned sequence ends
+              - Remove columns containing only gaps
+              - Remove sequences above a threshold level percentage of divergence from the majority
+    # Visualise alignments
 
-    ## Visualise alignments
+              - Generate image files showing the alignment before and after analysis using
+              - showing which columns and rows have been removed
+              - Draw sequence logos
+              - Visualise coverage at each position in the alignment
 
-        - Generate image files showing the alignment before and after analysis using 
-        - showing which columns and rows have been removed
-        - Draw sequence logos
-        - Visualise coverage at each position in the alignment
+    # Analyse alignment statistics
 
-    ## Analyse alignment statistics 
+              - Generate a similarity matrix showing the percentage identity between each sequence pair
 
-        - Generate a similarity matrix showing the percentage identity between each sequence pair 
+    # Usage
 
-    # Usage 
+    For basic usage, user must input a fasta file with aligned sequence and a config file:
 
-        For basic usage, user must input a fasta file with aligned sequences
-        and a config file: 
+    Downlaod the config file [here](https://github.com/GeOdette/clalign/blob/ca26b2a208e83cb9ae25346d8c3a8c46c899ae48/my_configs.ini)
 
-        Downlaod the config file [here](/KatyBrown/CIAlign/blob/100bd7b87a889c120435ed91035e0e27c497f964/templates/ini_template.txt)
+    Edit the config file according to your needs.
 
-        Edit the config file according to your needs. 
+    The config file included in the description returns analysis with default values
 
-        The config file included in the description returns analysis with 
-        default values
+    Downlaod an example fasta file [here](https://github.com/GeOdette/clalign/blob/ca26b2a208e83cb9ae25346d8c3a8c46c899ae48/data/example4.fasta)
+              for dummy use
 
-        <br>
-        Downlaod an example fasta file [here](/KatyBrown/CIAlign/blob/100bd7b87a889c120435ed91035e0e27c497f964/example_files/example4.fasta)
-        for dummy use
+    Click [__Input File__](https://console.latch.bio/workflows/60653/parameters) to enter the input file and **Configs** to enter the config file
 
-        Click __Input File__ to enter the input file and 
+    Clck **Launch Workflow** button at [LatchBio](https://console.latch.bio/se/) to begin the run
 
-        **Configs** to enter the config file
+    # Accessing files
 
-        Clck **Launch Workflow** button to begin the rule
+    With a complete run, you can access the folowing files:
 
-    # Accessing files 
+    # File with cleaned alignments
 
-        With a complete run, you can access the folowing files:
+      "Cleaned" alignment as **cleaned.fasta**
 
-    > "Cleaned" alignment as **cleaned.fasta** 
+    # Consensus Sequence
+    > **consensus_sequence.fasta:**   containing consensus sequence only
 
-    > Consensus Sequence
-    #### **consensus_sequence.fasta** containing consensus sequence only
-    #### **cleanedWconsensus_sequence.fasta** containing the cleaned alignment plus the consensus
+    > **cleanedWconsensus_sequence.fasta**   containing the cleaned alignment plus the consensus
 
-    <br>
-    > Mini Alignments 
-    #### **view_input.jpg:**  with the the input alignment
-    #### **view_output.jpg:** with the  the cleaned output alignment
-    #### **view_markup.jpg:** with the the input alignment with deleted rows and columns marked
+    # Mini Alignments
 
-    <br>
-    > Logos 
-    ##### **logosBar.jpg:** the alignment represented as a bar chart
-    #### **logosTxt.jpg:**  the alignment represented as a standard sequence logo 
+    > **view_input.jpg:**  with the the input alignment
 
-    <br>
-    > Coverage Plots 
-    #### **CPlots_in.jpg** : image showing the input alignment coverage
-    ##### **CPlots_out.jpg** : image showing the output alignment coverage
+    > **view_output.jpg:** with the  the cleaned output alignment
 
-    <br>
-    > Similarity Matrices 
-    ##### **stats_in.tsv:**   similarity matrix for the input file
-    ##### **stats_out.tsv:**  similarity matrix for the output file
+    > **view_markup.jpg:** with the the input alignment with deleted rows and columns marked
 
-    <br>
+    # Logos
+
+    > **logosBar.jpg:** the alignment represented as a bar chart
+
+    > **logosTxt.jpg:**  the alignment represented as a standard sequence logo
+
+    # Coverage Plots
+
+    > **CPlots_in.jpg** :   image showing the input alignment coverage
+
+    > **CPlots_out.jpg** :  image showing the output alignment coverage
+
+    # Similarity Matrices
+
+    > **stats_in.tsv:** similarity matrix for the input file
+
+    > **stats_out.tsv:**    similarity matrix for the output file
+
     > Head to **Data** on the latch console to access various files
 
 
 
 
+    __metadata__:
+        display_name: Clean and Interpret Multipple sequence Alignments
+
+        author: KatyBrown
+
+            name: CIAlign
+
+            email:
+
+            github: https://github.com/KatyBrown/CIAlign.git
+
+        repository:
+
+        license:
+            id: MIT
 
     Args:
 
