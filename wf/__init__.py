@@ -13,58 +13,38 @@ from latch.types import LatchFile, LatchDir
 
 @small_task
 def align_task(
-        align_file: LatchFile,
-        config_file: LatchFile) -> LatchDir:
+    align_file: LatchFile,
+    config_file: LatchFile,
+    output_dir: LatchDir,
+    outfile_stem: str
+    ) -> LatchDir:
 
-    # Make the output DIR
-    os.mkdir(Path("ClalignedFiles").resolve())
+    local_dir = "/root/cia_output/"
+    local_prefix = os.path.join(local_dir, outfile_stem)
+
     # The function to run
     _align_cmd = [
         "CIAlign",
         "--infile",
         align_file.local_path,
         "--inifile",
-        str(Path(config_file).resolve()),
-        "--all",
+        config_file.local_path,
+        "--outfile_stem",
+        str(local_prefix),
+        "--all"
     ]
 
     subprocess.run(_align_cmd, check=True)
 
-    # Movigng the files to ClalignedFiles DIR
-
-    shutil.move(LatchFile(str(Path("CIAlign_removed.txt")),
-                "latch:///ClalignedFiles/CIAlign_removed.txt"))
-    shutil.move(LatchFile(str(Path("CIAlign_log.txt")),
-                          "latch:///ClalignedFiles/CIAlign_log.txt"))
-    shutil.move(LatchFile(str(Path("CIAlign_cleaned.fasta")),
-                          "latch:///ClalignedFiles/CIAlign_cleaned.fasta"))
-    shutil.move(LatchFile(str(Path("CIAlign_consensus.fasta")),
-                          "latch:///ClalignedFiles/CIAlign_consensus.fasta"))
-    shutil.move(LatchFile(str(Path("CIAlign_with_consensus.fasta")),
-                          "latch:///ClalignedFiles/CIAlign_with_consensus.fasta"))
-    shutil.move(LatchFile(str(Path("CIAlign_input.jpg")),
-                          "latch:///ClalignedFiles/CIAlign_input.jpg"))
-    shutil.move(LatchFile(str(Path("CIAlign_output.jpg")),
-                          "latch:///ClalignedFiles/CIAlign_output.jpg"))
-    shutil.move(LatchFile(str(Path("CIAlign_markup.jpg")),
-                          "latch:///ClalignedFiles/CIAlign_markup.jpg"))
-    shutil.move(LatchFile(str(Path("CIAlign_logo_bar.jpg")),
-                          "latch:///ClalignedFiles/CIAlign_logo_bar.jpg"))
-    shutil.move(LatchFile(str(Path("CIAlign_logo_text.jpg")),
-                          "latch:///ClalignedFiles/CIAlign_logo_text.jpg"))
-    shutil.move(LatchFile(str(Path("CIAlign_input_coverage.jpg")),
-                          "latch:///ClalignedFiles/CIAlign_input_coverage.jpg"))
-    shutil.move(LatchFile(str(Path("CIAlign_output_coverage.jpg")),
-                          "latch:///ClalignedFiles/CIAlign_output_coverage.jpg"))
-    shutil.move(LatchFile(str(Path("CIAlign_input_similarity.tsv")),
-                          "latch:///ClalignedFiles/CIAlign_input_similarity.tsv"))
-    shutil.move(LatchFile(str(Path("CIAlign_output_similarity.tsv")),
-                          "latch:///ClalignedFiles/CIAlign_output_similarity.tsv"))
-    return LatchDir(str(Path("ClalignedFiles")), "latch:///ClalignedFiles")
+    return LatchDir(local_dir, output_dir.remote_path)
 
 
 @ workflow
-def CIAlign(align_file: LatchFile, config_file: LatchFile) -> LatchDir:
+def CIAlign(align_file: LatchFile,
+            config_file: LatchFile,
+            output_dir: LatchDir,
+            outfile_stem: str) -> LatchDir:
+
     """The workflow is the implementation of the CIAlign tool: Clean and analyse a multiple sequence alignment (MSA).
 
     ----
@@ -174,21 +154,22 @@ def CIAlign(align_file: LatchFile, config_file: LatchFile) -> LatchDir:
     Args:
 
         align_file: the file to be aligned
-
-
           __metadata__:
             display_name: Input File
+
         config_file: File containing configurations
-
-
           __metadata__:
             display_name: Configs
 
-        output_file: The file used to write output
-
-
+        output_dir: Output directory
           __metadata__:
-            display_name: Output File
+            display_name: Output Directory
+        outfile_stem: Output filename stem
+          __metadata__:
+            display_name: Output filename stem
     """
 
-    return align_task(align_file=align_file, config_file=config_file)
+    return align_task(align_file=align_file,
+                config_file=config_file,
+                output_dir=output_dir,
+                outfile_stem=outfile_stem)

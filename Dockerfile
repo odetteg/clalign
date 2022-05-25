@@ -8,6 +8,7 @@ RUN pip install pandas
 # Install cialign using pip
 RUN pip3 install cialign
 
+RUN mkdir /root/cia_output
 
 COPY wf /root/wf
 
@@ -20,4 +21,4 @@ RUN  sed -i 's/latch/wf/g' flytekit.config
 RUN  sed -i 's/latch/wf/g' flytekit.config
 RUN python3 -m pip install --upgrade latch
 WORKDIR /root
-ENV LATCH_AUTHENTICATION_ENDPOINT https://nucleus.latch.bio
+#ENV LATCH_AUTHENTICATION_ENDPOINT https://nucleus.latch.bio
