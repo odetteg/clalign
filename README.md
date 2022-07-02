@@ -1,4 +1,7 @@
 # clalign
+[Launch the workflow at the Latch console](https://console.latch.bio/explore/62939/info)
+ [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/ge_odette.svg?style=social&label=Follow%20%40ge_odette)](https://twitter.com/ge_odette)
+
 CIAlign is a command line tool
     that allows users to remove specific issues from an MSA, visualise the MSA, and interpret the MSA.
     
